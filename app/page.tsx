@@ -6,6 +6,7 @@ import MarketSignals from '@/components/MarketSignals';
 import SupplyChainRisk from '@/components/SupplyChainRisk';
 import ScenarioAnalysis from '@/components/ScenarioAnalysis';
 import NewsFeed from '@/components/NewsFeed';
+import StrategicActions from '@/components/StrategicActions';
 import TickerBar from '@/components/TickerBar';
 
 export default function Home() {
@@ -36,8 +37,13 @@ export default function Home() {
           <ScenarioAnalysis />
         </div>
 
-        {/* Row 4: Intel Feed */}
+        {/* Row 4: Strategic Actions — full width */}
         <div className="section-fade-5">
+          <StrategicActions />
+        </div>
+
+        {/* Row 5: Intel Feed */}
+        <div className="section-fade-6">
           <NewsFeed />
         </div>
       </main>

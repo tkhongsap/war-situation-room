@@ -135,7 +135,7 @@ export default function MarketSignals() {
 
       {/* Energy — large cards, 3 columns */}
       <div>
-        <SectionHeader title="Energy" />
+        <SectionHeader title="Energy — 7-Day Price Action" />
         <div className="grid grid-cols-3 gap-3">
           {loading ? (
             <>{[1,2,3].map(i => <SkeletonCard key={i} />)}</>
@@ -151,7 +151,7 @@ export default function MarketSignals() {
 
       {/* Commodities — 6 columns */}
       <div>
-        <SectionHeader title="Commodities" />
+        <SectionHeader title="Commodities — 7-Day Price Action" />
         <div className="grid grid-cols-3 md:grid-cols-6 gap-3">
           {loading ? (
             <>{[1,2,3,4,5,6].map(i => <SkeletonCard key={i} />)}</>
@@ -168,7 +168,7 @@ export default function MarketSignals() {
       {/* Currencies + Indices — compact table rows */}
       <div className="grid grid-cols-2 gap-6">
         <div>
-          <SectionHeader title="Currencies" />
+          <SectionHeader title="Currencies — 10-Day Trend" />
           <div className="rounded-sm border border-[#1a2a3a] bg-[#0d1117] px-3 py-1">
             {loading ? (
               <>{[1,2,3,4].map(i => <SkeletonRow key={i} />)}</>

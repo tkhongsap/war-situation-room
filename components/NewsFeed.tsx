@@ -74,6 +74,7 @@ export default function NewsFeed() {
           <h2 className="text-[12px] font-semibold text-gray-300 uppercase tracking-[0.13em]">
             Live Intel Feed
           </h2>
+          <span className="text-[9px] text-gray-600 tracking-wider ml-1">— Last 48 Hours</span>
           {/* Pulsing green dot */}
           <div className="flex items-center gap-1.5 ml-1">
             <div className="w-1.5 h-1.5 rounded-full bg-green-500 pulse-green-dot" />

@@ -42,10 +42,17 @@ function TimeZoneClock({ timezone, label, primary = false }: TimeZoneClockProps)
 }
 
 export default function Header() {
-  const [lastUpdated, setLastUpdated] = useState('');
+  const [lastUpdatedFull, setLastUpdatedFull] = useState('');
 
   useEffect(() => {
-    const update = () => setLastUpdated(new Date().toLocaleTimeString('en-US', { hour12: false }));
+    const update = () => {
+      const now = new Date();
+      setLastUpdatedFull(
+        now.toLocaleDateString('en-US', { day: '2-digit', month: 'short', year: 'numeric' }) +
+          ' ' +
+          now.toLocaleTimeString('en-US', { hour12: false })
+      );
+    };
     update();
     const interval = setInterval(update, 10000);
     return () => clearInterval(interval);
@@ -95,11 +102,14 @@ export default function Header() {
             <Radio className="w-3 h-3 blink" />
             <span className="text-[10px] tracking-widest text-green-500 font-medium">LIVE</span>
           </div>
-          <div className="flex items-center gap-1.5">
+          <div className="flex items-center gap-1.5 px-3 py-1 rounded bg-[#0d1117] border border-[#1a2a3a]">
             <RefreshCw className="w-3 h-3 text-gray-500" />
-            <span className="text-[10px] text-gray-500">
-              Updated {lastUpdated}
-            </span>
+            <div className="flex flex-col">
+              <span className="text-[8px] text-gray-600 uppercase tracking-widest">Last Updated</span>
+              <span className="text-[11px] text-gray-400 font-mono tabular-nums">
+                {lastUpdatedFull}
+              </span>
+            </div>
           </div>
         </div>
       </div>

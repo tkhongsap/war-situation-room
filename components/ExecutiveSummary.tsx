@@ -177,6 +177,8 @@ export default function ExecutiveSummary() {
         <div className="w-px self-stretch bg-[#1a2a3a] flex-shrink-0" />
 
         {/* Delta indicators */}
+        <div className="flex flex-col items-center gap-2 flex-shrink-0">
+          <span className="text-[9px] text-gray-600 uppercase tracking-[0.16em] font-semibold">24h Change</span>
         <div className="flex items-stretch gap-3 flex-shrink-0">
           {deltas.map((d) => (
             <div
@@ -212,6 +214,7 @@ export default function ExecutiveSummary() {
               </div>
             </div>
           ))}
+        </div>
         </div>
       </div>
     </div>
