@@ -1,0 +1,171 @@
+{
+  "project": "war-situation-room",
+  "branchName": "ralph/core-dashboard",
+  "description": "Geopolitical Risk Intelligence Dashboard — real-time conflict monitoring and business impact assessment for enterprise decision makers",
+  "userStories": [
+    {
+      "id": "US-001",
+      "title": "Project scaffolding and layout shell",
+      "description": "As a developer, I need the Next.js 14 project initialized with Tailwind, shadcn/ui, and the dark-themed layout shell so all subsequent stories have a foundation.",
+      "acceptanceCriteria": [
+        "Next.js 14 App Router project created with TypeScript",
+        "Tailwind CSS configured with dark theme as default",
+        "shadcn/ui installed and configured",
+        "Root layout has dark background (#0a0a0f or similar dark navy/black), sans-serif font",
+        "Header bar component: 'SITUATION ROOM' title, subtitle 'Geopolitical Risk Intelligence', placeholder risk level badge, multi-timezone clocks (Bangkok, UTC, Tehran, DC) showing current time, last-updated timestamp",
+        "Bottom ticker bar component with placeholder scrolling text",
+        "Main content area with CSS grid layout ready for dashboard panels",
+        "App runs on port 3000 with npm run dev",
+        "Typecheck passes"
+      ],
+      "priority": 1,
+      "passes": false,
+      "notes": "Use dark military/intel aesthetic. Colors: dark navy/charcoal background, muted borders, bright accent colors for data. Think Bloomberg terminal."
+    },
+    {
+      "id": "US-002",
+      "title": "Conflict map with strike locations and shipping routes",
+      "description": "As an executive, I want to see an interactive map showing the conflict zone, strike locations, and key shipping routes so I can visually understand the geographic scope.",
+      "acceptanceCriteria": [
+        "Install and configure react-leaflet with dark map tiles (CartoDB dark_all or similar)",
+        "Map centered on Middle East / Persian Gulf region",
+        "Hardcoded markers for known strike locations (Tehran, nuclear sites, IRGC bases) with red/orange icons",
+        "Strait of Hormuz chokepoint highlighted with a colored zone overlay",
+        "Shipping route polylines: normal route (through Hormuz) in red/dashed, alternative route (around Africa/Cape of Good Hope) in green",
+        "Key port markers: Jebel Ali, Fujairah, Ras Tanura, Bandar Abbas",
+        "Map legend explaining marker types",
+        "Map is interactive (zoom, pan) but has sensible default bounds",
+        "Typecheck passes",
+        "Verify in browser using dev-browser skill"
+      ],
+      "priority": 2,
+      "passes": false,
+      "notes": "Use Leaflet with dynamic import (no SSR for map). Dark tiles are critical for the aesthetic. Keep markers data in a separate constants file for easy updates."
+    },
+    {
+      "id": "US-003",
+      "title": "Market impact panel — oil and energy prices",
+      "description": "As an executive, I want to see real-time oil and energy prices with change indicators so I can assess energy cost exposure.",
+      "acceptanceCriteria": [
+        "Create a reusable PriceCard component showing: commodity name, current price, 24h change (% and absolute), trend arrow, color coding (green=down, red=up for costs)",
+        "Create API route handler /api/prices that fetches oil/energy data from a free public API (Yahoo Finance v8, or finnhub, or hardcoded realistic data with slight randomization as fallback)",
+        "Display cards for: Brent Crude (USD/bbl), WTI Crude (USD/bbl), Natural Gas (USD/MMBtu)",
+        "Each card has a mini sparkline chart (7-day or 24h) using Recharts",
+        "Data auto-refreshes every 60 seconds via client-side polling",
+        "Loading skeleton states while data fetches",
+        "Typecheck passes",
+        "Verify in browser using dev-browser skill"
+      ],
+      "priority": 3,
+      "passes": false,
+      "notes": "If free API is unreliable, use realistic hardcoded data with small random fluctuations to simulate live feed. Brent should be around $95-110 range given current crisis. Include proper error handling."
+    },
+    {
+      "id": "US-004",
+      "title": "Commodity and currency price cards",
+      "description": "As an executive, I want to see F&B-relevant commodity prices and currency rates so I can assess raw material and forex exposure.",
+      "acceptanceCriteria": [
+        "Extend /api/prices or create /api/commodities route handler for commodity data",
+        "Commodity cards for: Sugar (USD/lb), Wheat (USD/bushel), Aluminum (USD/tonne), Palm Oil (USD/tonne)",
+        "Currency cards for: THB/USD, EUR/USD, CNY/USD with change indicators",
+        "Reuse PriceCard component from US-003",
+        "Cards arranged in a responsive grid alongside energy prices",
+        "Auto-refresh with same 60s interval",
+        "Typecheck passes",
+        "Verify in browser using dev-browser skill"
+      ],
+      "priority": 4,
+      "passes": false,
+      "notes": "Group visually: Energy section, Commodities section, Currencies section. Use section headers."
+    },
+    {
+      "id": "US-005",
+      "title": "Supply chain risk assessment matrix",
+      "description": "As an executive, I want to see a risk assessment across supply chain categories so I can quickly identify the highest-risk areas.",
+      "acceptanceCriteria": [
+        "Risk assessment panel with 6 categories: Energy & Fuel Costs, Raw Material Availability, Packaging Materials, Shipping & Logistics, Currency Exposure, Consumer Demand",
+        "Each category shows: risk level (1-5 with label: Critical/High/Elevated/Moderate/Low), trend arrow (↑↓→), brief 1-2 sentence impact description",
+        "Visual: color-coded cards (red=critical, orange=high, yellow=elevated, blue=moderate, green=low)",
+        "Risk data stored in a constants/config file (easy to update manually)",
+        "Overall composite risk score displayed prominently (weighted average)",
+        "Typecheck passes",
+        "Verify in browser using dev-browser skill"
+      ],
+      "priority": 5,
+      "passes": false,
+      "notes": "This is the core value prop — make it look sharp. Current realistic risk levels: Energy=Critical(5), Shipping=Critical(5), Packaging=High(4), Raw Materials=Elevated(3), Currency=High(4), Consumer Demand=Moderate(2). All trending up except Consumer Demand."
+    },
+    {
+      "id": "US-006",
+      "title": "Scenario analysis cards",
+      "description": "As an executive, I want to see scenario projections so I can plan for different outcomes.",
+      "acceptanceCriteria": [
+        "Three scenario cards displayed in a row: Base Case, Escalation, De-escalation",
+        "Each card has: scenario name, probability estimate, description (2-3 sentences), impact projections for energy costs (%), raw materials (%), freight rates (%), estimated duration",
+        "Cards visually distinct: Base=amber border, Escalation=red border, De-escalation=green border",
+        "Data stored in constants file for easy manual updates",
+        "Cards have a professional, report-like feel",
+        "Typecheck passes",
+        "Verify in browser using dev-browser skill"
+      ],
+      "priority": 6,
+      "passes": false,
+      "notes": "Base Case: Hormuz partially restricted 2-4 weeks, oil +15-25%, freight +30-50%. Escalation: Full closure 1-3 months, oil +40-80%, freight +100-200%. De-escalation: Ceasefire in 2 weeks, oil settles -10%, freight normalizes in 4-6 weeks."
+    },
+    {
+      "id": "US-007",
+      "title": "Live intelligence news feed",
+      "description": "As an executive, I want a live feed of conflict-related news so I can stay informed of developments.",
+      "acceptanceCriteria": [
+        "Create /api/news route handler that fetches conflict news from NewsAPI.org free tier, or RSS feeds (Al Jazeera, Reuters), or Brave Search API as fallback",
+        "News feed panel showing scrollable list of headlines",
+        "Each item shows: timestamp (relative, e.g. '2h ago'), source name, headline text, category tag (Military/Economic/Shipping/Diplomatic)",
+        "Category filter buttons at top of feed",
+        "Auto-refreshes every 5 minutes",
+        "If API unavailable, show realistic hardcoded sample headlines with current dates",
+        "Maximum 20 items displayed, sorted newest first",
+        "Typecheck passes",
+        "Verify in browser using dev-browser skill"
+      ],
+      "priority": 7,
+      "passes": false,
+      "notes": "Search terms for news: Iran, Hormuz, oil prices, Middle East conflict, shipping disruption, sanctions. Categorize automatically based on keywords in headline."
+    },
+    {
+      "id": "US-008",
+      "title": "AI situation summary panel",
+      "description": "As an executive, I want a concise AI-generated situation summary at the top of the dashboard so I can get the big picture in 30 seconds.",
+      "acceptanceCriteria": [
+        "Summary panel positioned prominently near the top (below header, beside or above the map)",
+        "Shows: current situation summary (3-5 bullet points), last updated timestamp, threat level with colored indicator",
+        "Summary content stored in a config/data file for easy manual updates",
+        "Styled like a classified briefing document (monospace touches, 'CLASSIFIED' or 'SITUATION BRIEF' header)",
+        "Include key stats inline: casualties, missiles intercepted, Hormuz status",
+        "Typecheck passes",
+        "Verify in browser using dev-browser skill"
+      ],
+      "priority": 8,
+      "passes": false,
+      "notes": "Use current real situation data from the conflict. This should feel like reading an intelligence briefing. Keep it factual and concise."
+    },
+    {
+      "id": "US-009",
+      "title": "Responsive grid layout, polish, and deployment config",
+      "description": "As an executive viewing on a large screen, I want the dashboard to be visually polished and properly laid out for war room display.",
+      "acceptanceCriteria": [
+        "All panels arranged in a coherent grid: map+summary top, prices middle, risk+scenarios below, news feed sidebar or bottom",
+        "Smooth animations on data updates (number transitions, fade-ins)",
+        "Bottom ticker bar populated with real key metrics scrolling",
+        "Overall risk level in header dynamically calculated from risk matrix",
+        "Dockerfile created for containerized deployment",
+        "README.md with project description, setup instructions, data source documentation",
+        "No console errors or warnings",
+        "Typecheck passes",
+        "Verify in browser using dev-browser skill"
+      ],
+      "priority": 9,
+      "passes": false,
+      "notes": "This is the polish pass. Make it look like a $50K consulting deliverable. Ensure the grid works well on 1920x1080 and larger displays. Add subtle animations but keep it professional."
+    }
+  ]
+}
