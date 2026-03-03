@@ -1,36 +1,97 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Situation Room — Global Intelligence Dashboard
 
-## Getting Started
+Real-time geopolitical intelligence dashboard. Monitors active conflict theaters, market signals, supply chain risk, and breaking news — all from live data sources. Designed for 1920×1080 war-room displays.
 
-First, run the development server:
+## Panels
+
+| Panel | Description |
+|---|---|
+| **Situation Brief** | Current threat level, operation status, and key tactical statistics |
+| **Theater Map** | Leaflet map of the Middle East/Persian Gulf — strike targets, naval assets, shipping routes |
+| **Market Signals** | Live prices for 8 commodities, 4 FX pairs, 3 major indices with 7-10 day sparklines |
+| **Supply Chain Risk** | 6-category risk assessment with severity bars and composite score |
+| **Scenario Analysis** | Probability-weighted outcomes (Base / Escalation / De-escalation) |
+| **Intel Feed** | RSS-aggregated, conflict-filtered headlines from Al Jazeera, BBC, and NYT |
+| **Ticker Bar** | Fixed-bottom live scroll of all key market prices and status indicators |
+
+## Data Sources
+
+All data is live. No mock data, no fallbacks.
+
+| Source | Data |
+|---|---|
+| **Yahoo Finance** | Commodities (Brent, WTI, Natural Gas, Gold, Copper, Aluminum, Wheat, Sugar), FX, Indices |
+| **Finnhub** (optional) | Secondary FX rates fallback |
+| **RSS feeds** | Al Jazeera, BBC World, NYT World — keyword-filtered for conflict relevance |
+
+## Environment
+
+Copy `.env.example` to `.env.local`:
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+cp .env.example .env.local
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+| Variable | Required | Description |
+|---|---|---|
+| `FINNHUB_API_KEY` | Optional | Enables Finnhub as FX fallback when Yahoo Finance is unavailable |
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Running Locally
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+```bash
+npm install
+npm run dev
+```
 
-## Learn More
+Open http://localhost:3000.
 
-To learn more about Next.js, take a look at the following resources:
+## Production Build
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+```bash
+npm run build
+npm start
+```
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## Docker
 
-## Deploy on Vercel
+```bash
+docker build -t situation-room .
+docker run -p 3000:3000 \
+  -e FINNHUB_API_KEY=your_key_here \
+  situation-room
+```
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+The image uses Next.js standalone output — minimal footprint, no node_modules in the runner stage.
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+## Architecture
+
+```
+app/
+  api/
+    market-data/    Yahoo Finance — 8 commodities, 60s revalidation
+    forex/          Yahoo Finance + Finnhub fallback — 4 FX + 3 indices
+    news/           RSS aggregation — keyword-filtered, 5min revalidation
+  layout.tsx        Root layout, Leaflet CSS, dark theme
+  page.tsx          Dashboard composition
+
+components/
+  Header.tsx          Sticky header — multi-timezone clocks, threat level
+  SituationBrief.tsx  Op status, key stats, tactical bullet points
+  ConflictMap.tsx     Leaflet map wrapper (SSR-disabled)
+  MapInner.tsx        Leaflet map — markers, routes, polygons
+  MarketSignals.tsx   Energy / commodities / FX / indices grid
+  PriceCard.tsx       Individual price card with sparkline
+  SupplyChainRisk.tsx 6-category risk grid with severity bars
+  ScenarioAnalysis.tsx  3-scenario probability analysis
+  NewsFeed.tsx        Live RSS intel feed with category filters
+  TickerBar.tsx       Fixed-bottom scrolling market ticker
+
+config/
+  situation-data.ts   Current operation brief (manually curated)
+  scenarios.ts        Probability-weighted scenarios
+  risk-data.ts        Supply chain risk categories
+```
+
+## Design
+
+Dark military/intel aesthetic. Monospace typography (JetBrains Mono). Color-coded severity system (Critical → Red, High → Orange, Elevated → Yellow, Moderate → Blue, Low → Green). Optimized for 24/7 war-room display at 1920×1080+.

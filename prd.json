@@ -1,0 +1,180 @@
+{
+  "project": "war-situation-room",
+  "branchName": "ralph/core-dashboard",
+  "description": "Global Intelligence & Market Signal Dashboard — real-time conflict monitoring, market signals, and geopolitical risk assessment",
+  "userStories": [
+    {
+      "id": "US-001",
+      "title": "Project scaffolding and dark layout shell",
+      "description": "As a developer, I need the Next.js 14 project initialized with Tailwind, shadcn/ui, and the dark-themed layout shell.",
+      "acceptanceCriteria": [
+        "Next.js 14 App Router project with TypeScript created via create-next-app",
+        "Tailwind CSS configured with dark theme as default",
+        "shadcn/ui installed and configured (dark mode)",
+        "Root layout: dark background (#0a0a0f), sans-serif font, full viewport height",
+        "Header bar: 'SITUATION ROOM' title in bold caps, subtitle 'Global Intelligence Dashboard', placeholder threat level badge (red pulsing dot + 'CRITICAL'), multi-timezone clocks (Bangkok, UTC, Tehran, DC) updating every second, last-updated timestamp",
+        "Bottom ticker bar: horizontally scrolling placeholder text, dark semi-transparent background, fixed to bottom",
+        "Main content area: CSS grid layout with named areas ready for panels",
+        "App runs with npm run dev on port 3000",
+        "Typecheck passes"
+      ],
+      "priority": 1,
+      "passes": false,
+      "notes": "Bloomberg terminal aesthetic. Use Inter or JetBrains Mono for data. Muted borders (#1a1a2e), accent colors for data points. Header should feel like a command center."
+    },
+    {
+      "id": "US-002",
+      "title": "Conflict map with strike locations, shipping routes, and naval markers",
+      "description": "As an executive, I want an interactive map showing the conflict zone, strike locations, naval positions, and shipping routes.",
+      "acceptanceCriteria": [
+        "react-leaflet installed with dark map tiles (CartoDB dark_all)",
+        "Map centered on Middle East / Persian Gulf (lat 28, lng 54, zoom 5)",
+        "Strike markers (red/orange pulsing circles): Tehran, Isfahan nuclear facility, Bushehr, Shiraz IRGC base, Parchin, Natanz, Fordow",
+        "Retaliation markers (yellow): Tel Aviv, Dubai Airport, Abu Dhabi, Jebel Ali Port",
+        "Strait of Hormuz chokepoint: red semi-transparent polygon overlay",
+        "Shipping routes: normal route through Hormuz (red dashed polyline), alternative Cape of Good Hope route (green polyline)",
+        "Port markers (blue): Jebel Ali, Fujairah, Ras Tanura, Bandar Abbas, Chabahar",
+        "US naval markers (blue stars): estimated carrier group positions in Arabian Sea / Gulf of Oman",
+        "Map legend explaining all marker types",
+        "Dynamic import (no SSR) for Leaflet",
+        "All marker data in a separate constants/map-data.ts file",
+        "Typecheck passes"
+      ],
+      "priority": 2,
+      "passes": false,
+      "notes": "Pulsing animation on strike markers for visual impact. Keep map data easily updatable."
+    },
+    {
+      "id": "US-003",
+      "title": "Situation brief panel",
+      "description": "As an executive, I want a concise intelligence briefing summary so I can grasp the situation in 30 seconds.",
+      "acceptanceCriteria": [
+        "Panel positioned top-left, beside the map",
+        "Header: 'SITUATION BRIEF' in monospace with timestamp and 'CLASSIFIED' watermark style",
+        "Threat level indicator: colored badge (CRITICAL=red, HIGH=orange, ELEVATED=yellow)",
+        "Content: 5-6 bullet points covering current conflict status",
+        "Key stats displayed inline: operation name, leadership status, strike count, retaliation status, Hormuz status, US casualties, diplomatic signals",
+        "All briefing content in a separate config/situation-data.ts file for easy manual updates",
+        "Styled with slight monospace touches, left-aligned, compact",
+        "Typecheck passes"
+      ],
+      "priority": 3,
+      "passes": false,
+      "notes": "Use real current situation data. Operation Shield of Judah, Khamenei eliminated, Hormuz closed, UAE airports hit, 3 US KIA. Must feel like reading an actual intel brief."
+    },
+    {
+      "id": "US-004",
+      "title": "Market signals — energy and commodity price cards with sparklines",
+      "description": "As an executive, I want real-time energy and commodity prices with trend indicators to assess market exposure.",
+      "acceptanceCriteria": [
+        "Reusable PriceCard component: name, current price, unit, 24h change (% + absolute), trend arrow (up/down), color coding (red=price up, green=price down), mini 7-point sparkline using Recharts",
+        "API route /api/market-data that attempts Yahoo Finance API or Alpha Vantage, with hardcoded realistic fallback data",
+        "Energy section: Brent Crude (~$105/bbl), WTI (~$101/bbl), Natural Gas (~$4.8/MMBtu)",
+        "Commodities section: Gold (~$2,180/oz), Aluminum (~$2,450/t), Wheat (~$7.2/bu), Sugar (~$0.28/lb), Palm Oil (~$4,100/t), Copper (~$9,200/t)",
+        "Section headers for Energy and Commodities",
+        "Responsive grid layout for cards",
+        "Auto-refresh every 60 seconds with subtle fade animation on update",
+        "Loading skeleton states",
+        "Fallback data includes realistic sparkline arrays showing upward trends for energy/gold",
+        "Typecheck passes"
+      ],
+      "priority": 4,
+      "passes": false,
+      "notes": "Crisis-adjusted prices. Energy and gold trending up, industrial commodities volatile. Sparklines should visually tell the story of recent volatility."
+    },
+    {
+      "id": "US-005",
+      "title": "Currency and market indices cards",
+      "description": "As an executive, I want currency rates and key market indices to see the financial ripple effects.",
+      "acceptanceCriteria": [
+        "Currency section: THB/USD (~35.8), EUR/USD (~1.07), CNY/USD (~7.28), JPY/USD (~152.4) using PriceCard component",
+        "Indices section: S&P 500 (~4,850, down), SET Index (~1,320, down), Nikkei 225 (~37,200, down)",
+        "API route /api/forex that attempts free forex API with hardcoded fallback",
+        "Each card shows: current value, daily change %, sparkline",
+        "Cards arranged in grid alongside energy/commodities from US-004",
+        "Section headers for Currencies and Indices",
+        "Same 60s auto-refresh as US-004",
+        "Typecheck passes"
+      ],
+      "priority": 5,
+      "passes": false,
+      "notes": "During conflict, equities generally down, USD strengthens, safe havens (gold, JPY) up. THB weakening against USD due to oil import costs."
+    },
+    {
+      "id": "US-006",
+      "title": "Supply chain risk assessment matrix",
+      "description": "As an executive, I want a risk assessment across supply chain categories to identify the highest-risk areas.",
+      "acceptanceCriteria": [
+        "Risk panel with 6 categories: Energy & Fuel Costs, Shipping & Logistics, Raw Materials, Packaging Materials, Currency Exposure, Consumer Demand",
+        "Each category card shows: risk level (1-5), label (Critical/High/Elevated/Moderate/Low), trend arrow, 1-2 sentence impact description",
+        "Color coding: red=Critical(5), orange=High(4), yellow=Elevated(3), blue=Moderate(2), green=Low(1)",
+        "Overall composite risk score displayed prominently with large number and label",
+        "Risk data in config/risk-data.ts: Energy=5↑, Shipping=5↑, Packaging=4↑, Raw Materials=3↑, Currency=4↑, Consumer Demand=2→",
+        "Panel header: 'SUPPLY CHAIN RISK ASSESSMENT'",
+        "Typecheck passes"
+      ],
+      "priority": 6,
+      "passes": false,
+      "notes": "Core value prop for enterprise buyers. Make it sharp and scannable."
+    },
+    {
+      "id": "US-007",
+      "title": "Scenario analysis cards",
+      "description": "As an executive, I want to see three scenario projections to plan for different outcomes.",
+      "acceptanceCriteria": [
+        "Three cards in a row: Base Case, Escalation, De-escalation",
+        "Each card: scenario name, probability badge, 2-3 sentence description, impact table (energy cost %, raw materials %, freight rates %, duration estimate)",
+        "Visual distinction: Base=amber border/accent, Escalation=red, De-escalation=green",
+        "Base Case: 55% probability, Hormuz partially restricted 2-4 weeks, energy +15-25%, freight +30-50%",
+        "Escalation: 30% probability, full Hormuz closure 1-3 months, energy +40-80%, freight +100-200%",
+        "De-escalation: 15% probability, ceasefire in 2 weeks, energy -10%, freight normalizes 4-6 weeks",
+        "Data in config/scenarios.ts",
+        "Panel header: 'SCENARIO ANALYSIS'",
+        "Typecheck passes"
+      ],
+      "priority": 7,
+      "passes": false,
+      "notes": "Professional report feel. These probabilities reflect current situation with Hormuz effectively closed and no diplomatic off-ramp yet."
+    },
+    {
+      "id": "US-008",
+      "title": "Live intelligence news feed with category filters",
+      "description": "As an executive, I want a live feed of conflict-related news filtered by category.",
+      "acceptanceCriteria": [
+        "API route /api/news that fetches from RSS feeds (Al Jazeera, Reuters, BBC) using rss-parser, with hardcoded fallback headlines",
+        "News panel showing scrollable list of 20 latest items",
+        "Each item: relative timestamp, source badge, headline text, category tag (Military/Economic/Shipping/Diplomatic/Sanctions)",
+        "Category filter buttons at top: All, Military, Economic, Shipping, Diplomatic, Sanctions",
+        "Auto-categorization based on keywords in headlines",
+        "Auto-refresh every 5 minutes",
+        "Fallback: 15-20 realistic hardcoded headlines with today's date covering the Iran conflict",
+        "Panel header: 'LIVE INTEL FEED' with pulsing green dot",
+        "Scrollable with max height, newest first",
+        "Typecheck passes"
+      ],
+      "priority": 8,
+      "passes": false,
+      "notes": "RSS feeds to try: https://www.aljazeera.com/xml/rss/all.xml, http://feeds.reuters.com/reuters/worldNews, http://feeds.bbci.co.uk/news/world/rss.xml. Filter for conflict-related keywords."
+    },
+    {
+      "id": "US-009",
+      "title": "Final layout, ticker bar, animations, Dockerfile, and polish",
+      "description": "As an executive viewing on a war room display, I want a polished, cohesive dashboard.",
+      "acceptanceCriteria": [
+        "Grid layout finalized: top row = situation brief (left 30%) + map (right 70%); middle = market signals (full width grid of cards); lower = risk matrix (left) + scenarios (right); bottom section = news feed (full width); fixed bottom = ticker bar",
+        "Bottom ticker bar populated with live data: Brent price, WTI, Gold, THB/USD, S&P 500, SET, Hormuz status, threat level — scrolling horizontally",
+        "Header threat level dynamically calculated from risk matrix composite score",
+        "Subtle animations: number transitions on price updates, fade-in on data load, pulsing on critical indicators",
+        "No console errors or warnings in production build",
+        "Dockerfile for containerized deployment (multi-stage: build + nginx or standalone Next.js)",
+        "README.md: project overview, screenshot placeholder, setup instructions, environment variables, data source docs, deployment guide",
+        ".env.example with all optional API keys documented",
+        "npm run build succeeds without errors",
+        "Typecheck passes"
+      ],
+      "priority": 9,
+      "passes": false,
+      "notes": "This is the polish pass. Should look like a $50K consulting deliverable on a 1920x1080+ display. Commit everything, push branch to origin."
+    }
+  ]
+}
