@@ -62,10 +62,10 @@ export default function Header() {
               <div className="absolute inset-0 w-2 h-2 rounded-full bg-red-500 animate-ping"></div>
             </div>
             <div>
-              <h1 className="text-xl font-bold tracking-[0.15em] text-white uppercase font-mono leading-none">
+              <h1 className="text-xl font-bold tracking-[0.14em] text-white uppercase leading-none">
                 Situation Room
               </h1>
-              <p className="text-[10px] text-gray-500 tracking-[0.15em] uppercase">
+              <p className="text-[10px] text-gray-500 tracking-[0.14em] uppercase">
                 Global Intelligence Dashboard
               </p>
             </div>

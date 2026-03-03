@@ -126,7 +126,7 @@ export default function ExecutiveSummary() {
   const threatColor = threatTextColor[situationData.threatLevel] ?? 'text-red-400';
 
   return (
-    <div className="bg-[#07090f] border border-[#1a2a3a] rounded-sm px-5 py-4">
+    <div className="bg-[#07090f] border border-[#1a2a3a] rounded-sm px-6 py-5">
       <div className="flex items-center gap-5">
         {/* Risk gauge */}
         <RiskDial score={compositeRiskScore} />
@@ -134,22 +134,43 @@ export default function ExecutiveSummary() {
         {/* Divider */}
         <div className="w-px self-stretch bg-[#1a2a3a] flex-shrink-0" />
 
-        {/* Summary text */}
+        {/* BLUF Summary */}
         <div className="flex-1 min-w-0">
-          <div className="flex items-center gap-2 mb-1.5">
-            <span className="text-[10px] font-medium uppercase tracking-widest text-gray-500">
+          <div className="flex items-center gap-2 mb-3">
+            <span className="text-[10px] font-semibold uppercase tracking-[0.18em] text-gray-500">
               Executive Summary
             </span>
             <div className="flex-1 h-px bg-[#1a2a3a]" />
-            <span className={`text-[10px] font-bold tracking-widest uppercase ${threatColor}`}>
-              {situationData.threatLevel}
+            <span className={`text-[10px] font-bold tracking-[0.18em] uppercase ${threatColor}`}>
+              {situationData.operationName}
             </span>
           </div>
-          <p className="text-[13px] text-gray-200 leading-relaxed">
-            <span className={`font-semibold ${threatColor}`}>{situationData.operationName}</span>
-            {' — '}
-            {situationData.executiveSummary}
-          </p>
+          <div className="space-y-2">
+            <div className="flex gap-3 items-baseline">
+              <span className={`text-[9px] font-bold tracking-[0.16em] uppercase whitespace-nowrap flex-shrink-0 w-[82px] ${threatColor}`}>
+                KEY CHANGE
+              </span>
+              <p className="text-[14px] font-medium text-gray-100 leading-snug">
+                {situationData.bluf.keyChange}
+              </p>
+            </div>
+            <div className="flex gap-3 items-baseline">
+              <span className="text-[9px] font-bold tracking-[0.16em] uppercase whitespace-nowrap flex-shrink-0 w-[82px] text-orange-400/80">
+                IMPACT
+              </span>
+              <p className="text-[13px] text-gray-300 leading-snug">
+                {situationData.bluf.impact}
+              </p>
+            </div>
+            <div className="flex gap-3 items-baseline">
+              <span className="text-[9px] font-bold tracking-[0.16em] uppercase whitespace-nowrap flex-shrink-0 w-[82px] text-amber-400/75">
+                WATCH
+              </span>
+              <p className="text-[13px] text-gray-400 leading-snug">
+                {situationData.bluf.watch}
+              </p>
+            </div>
+          </div>
         </div>
 
         {/* Divider */}

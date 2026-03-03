@@ -1,8 +1,15 @@
+export interface Bluf {
+  keyChange: string;
+  impact: string;
+  watch: string;
+}
+
 export interface SituationData {
   lastUpdated: string;
   threatLevel: 'CRITICAL' | 'HIGH' | 'ELEVATED' | 'MODERATE' | 'LOW';
   operationName: string;
   executiveSummary: string;
+  bluf: Bluf;
   bulletPoints: string[];
   keyStats: {
     label: string;
@@ -16,6 +23,11 @@ export const situationData: SituationData = {
   threatLevel: 'CRITICAL',
   operationName: 'OPERATION SHIELD OF JUDAH',
   executiveSummary: 'Operation Shield of Judah enters Day 4. The Strait of Hormuz is effectively closed — Iranian naval assets have blockaded the chokepoint, removing an estimated 20% of global oil supply from market. Energy markets are in extreme volatility with Brent crude up 35% in 72 hours; diplomatic resolution remains stalled at a deadlocked UN Security Council.',
+  bluf: {
+    keyChange: 'Strait of Hormuz effectively closed — Iranian naval blockade removes 20% of global oil supply from market. Day 4 of active strike operations.',
+    impact: 'Energy costs up 35% in 72 hours; tanker insurance suspended Gulf-wide; freight disruption cascading across Southeast Asia supply chains.',
+    watch: 'UNSC emergency vote outcome; US carrier strike group ROE escalation; Dubai Airport reopening timeline and regional re-routing costs.',
+  },
   bulletPoints: [
     'Coalition forces have conducted precision strikes on 14 identified nuclear and military infrastructure targets across Iran over a 72-hour period.',
     'Strait of Hormuz remains effectively closed — Iranian naval assets deployed across the chokepoint; maritime insurance suspended.',

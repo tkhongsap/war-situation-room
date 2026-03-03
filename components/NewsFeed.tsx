@@ -68,10 +68,10 @@ export default function NewsFeed() {
   return (
     <div className="bg-[#07090f] border border-[#1a2a3a] rounded-sm overflow-hidden">
       {/* Header */}
-      <div className="border-b border-[#1a2a3a] px-4 py-3 flex items-center justify-between">
+      <div className="border-b border-[#1a2a3a] px-5 py-3 flex items-center justify-between">
         <div className="flex items-center gap-2.5">
-          <Newspaper className="w-3.5 h-3.5 text-blue-400" />
-          <h2 className="text-[11px] font-semibold text-gray-300 uppercase tracking-[0.15em]">
+          <Newspaper className="w-3.5 h-3.5 text-blue-400/80" />
+          <h2 className="text-[12px] font-semibold text-gray-300 uppercase tracking-[0.13em]">
             Live Intel Feed
           </h2>
           {/* Pulsing green dot */}
@@ -92,7 +92,7 @@ export default function NewsFeed() {
       </div>
 
       {/* Filter tabs */}
-      <div className="border-b border-[#1a2a3a] px-4 py-2 flex items-center gap-2">
+      <div className="border-b border-[#1a2a3a] px-5 py-2 flex items-center gap-2">
         {FILTERS.map((f) => (
           <button
             key={f}
@@ -127,17 +127,17 @@ export default function NewsFeed() {
             </p>
           </div>
         ) : (
-          <div className="divide-y divide-[#0f1825]">
+          <div>
             {filtered.map((item) => {
               const cat = categoryConfig[item.category];
               return (
                 <div
                   key={item.id}
-                  className="px-4 py-3 hover:bg-[#0d1117] transition-colors flex items-start gap-3"
+                  className="px-5 py-3.5 hover:bg-[#0d1117] transition-colors flex items-start gap-3 border-b border-[#0c1520] last:border-0"
                 >
                   {/* Category pill */}
                   <span
-                    className={`flex-shrink-0 text-[9px] font-bold px-1.5 py-0.5 rounded border ${cat.bg} ${cat.border} ${cat.color} tracking-widest uppercase mt-0.5 whitespace-nowrap`}
+                    className={`flex-shrink-0 text-[9px] font-semibold px-1.5 py-0.5 rounded border ${cat.bg} ${cat.border} ${cat.color} tracking-wider uppercase mt-0.5 whitespace-nowrap opacity-85`}
                   >
                     {item.category}
                   </span>
@@ -147,18 +147,18 @@ export default function NewsFeed() {
                         href={item.url}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="text-[13px] text-gray-200 leading-snug hover:text-white transition-colors block"
+                        className="text-[14px] text-gray-200 leading-snug hover:text-white transition-colors block"
                       >
                         {item.headline}
                       </a>
                     ) : (
-                      <p className="text-[13px] text-gray-200 leading-snug">
+                      <p className="text-[14px] text-gray-200 leading-snug">
                         {item.headline}
                       </p>
                     )}
-                    <div className="flex items-center gap-3 mt-1.5">
+                    <div className="flex items-center gap-3 mt-2">
                       {/* Source badge */}
-                      <span className="text-[9px] font-medium bg-[#1a2a3a] text-gray-500 px-1.5 py-0.5 rounded">
+                      <span className="text-[9px] font-medium bg-[#141d28] text-gray-600 px-1.5 py-0.5 rounded border border-[#1a2a3a]/60">
                         {item.source}
                       </span>
                       <span className="text-[9px] font-mono text-gray-700">

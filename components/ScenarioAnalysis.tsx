@@ -32,10 +32,10 @@ export default function ScenarioAnalysis() {
   return (
     <div className="bg-[#07090f] border border-[#1a2a3a] rounded-sm overflow-hidden h-full flex flex-col">
       {/* Panel Header */}
-      <div className="border-b border-[#1a2a3a] px-4 py-3 flex items-center justify-between flex-shrink-0">
+      <div className="border-b border-[#1a2a3a] px-5 py-3 flex items-center justify-between flex-shrink-0">
         <div className="flex items-center gap-2">
-          <div className="w-1.5 h-1.5 rounded-full bg-amber-500"></div>
-          <h2 className="text-[11px] font-semibold text-gray-300 uppercase tracking-[0.15em]">
+          <div className="w-1.5 h-1.5 rounded-full bg-amber-500/80"></div>
+          <h2 className="text-[12px] font-semibold text-gray-300 uppercase tracking-[0.13em]">
             Scenario Analysis
           </h2>
         </div>
@@ -45,7 +45,7 @@ export default function ScenarioAnalysis() {
       </div>
 
       {/* Scenario Cards */}
-      <div className="flex-1 p-4 grid grid-cols-3 gap-3 min-h-0">
+      <div className="flex-1 p-4 grid grid-cols-3 gap-4 min-h-0">
         {scenarios.map((scenario) => {
           const cfg = variantConfig[scenario.variant];
           return (
@@ -54,7 +54,7 @@ export default function ScenarioAnalysis() {
               className={`rounded-sm border-l-2 border ${cfg.border} ${cfg.bg} flex flex-col overflow-hidden`}
             >
               {/* Card Header — prominent probability */}
-              <div className={`${cfg.headerBg} border-b ${cfg.border} px-3 pt-3 pb-2`}>
+              <div className={`${cfg.headerBg} border-b ${cfg.border} px-3.5 pt-3.5 pb-2.5`}>
                 <div className="flex items-start justify-between mb-2">
                   <span className={`text-[11px] font-semibold ${cfg.text} tracking-wide uppercase`}>
                     {scenario.name}
@@ -77,24 +77,24 @@ export default function ScenarioAnalysis() {
               </div>
 
               {/* Description */}
-              <div className="px-3 py-2 border-b border-[#1a2a3a]">
-                <p className="text-[11px] text-gray-400 leading-relaxed">
+              <div className="px-3.5 py-2.5 border-b border-[#1a2a3a]">
+                <p className="text-[12px] text-gray-400 leading-relaxed">
                   {scenario.description}
                 </p>
               </div>
 
               {/* Timeline */}
-              <div className="px-3 py-1.5 border-b border-[#1a2a3a] flex items-center gap-2">
+              <div className="px-3.5 py-2 border-b border-[#1a2a3a] flex items-center gap-2">
                 <span className="text-[9px] text-gray-600 uppercase tracking-widest">
                   Duration
                 </span>
-                <span className={`text-[11px] font-medium font-mono ${cfg.text}`}>
+                <span className={`text-[11px] font-medium ${cfg.text}`}>
                   {scenario.timeline}
                 </span>
               </div>
 
               {/* Impact Table */}
-              <div className="flex-1 px-3 py-2 space-y-1.5">
+              <div className="flex-1 px-3.5 py-2.5 space-y-2">
                 {scenario.impacts.map((impact) => (
                   <div key={impact.label} className="flex items-center justify-between">
                     <span className="text-[9px] text-gray-600 uppercase tracking-wide">

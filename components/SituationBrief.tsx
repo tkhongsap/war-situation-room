@@ -23,49 +23,49 @@ export default function SituationBrief() {
   return (
     <div className={`h-full flex flex-col border ${colors.border} bg-[#07090f] rounded-sm overflow-hidden`}>
       {/* Header */}
-      <div className={`border-b ${colors.border} px-4 py-2.5 flex items-center justify-between`}>
+      <div className={`border-b ${colors.border} px-5 py-3 flex items-center justify-between`}>
         <div className="flex items-center gap-2">
           <Shield className={`w-3.5 h-3.5 ${colors.text}`} />
-          <span className="text-[11px] font-semibold text-gray-300 tracking-[0.15em] uppercase">
+          <span className="text-[12px] font-semibold text-gray-300 tracking-[0.13em] uppercase">
             Situation Brief
           </span>
         </div>
-        <div className={`flex items-center gap-1.5 px-2 py-0.5 rounded border ${colors.badge} text-[10px] font-bold tracking-widest`}>
+        <div className={`flex items-center gap-1.5 px-2.5 py-1 rounded border ${colors.badge} text-[10px] font-bold tracking-widest`}>
           <AlertTriangle className="w-2.5 h-2.5" />
           {situationData.threatLevel}
         </div>
       </div>
 
       {/* Operation Name */}
-      <div className={`border-b ${colors.border} px-4 py-2 ${colors.bg}`}>
-        <div className="text-[9px] text-gray-500 tracking-widest uppercase">Operation</div>
-        <div className={`text-sm font-mono font-bold ${colors.text} tracking-wider`}>
+      <div className={`border-b ${colors.border} px-5 py-3 ${colors.bg}`}>
+        <div className="text-[10px] text-gray-500 tracking-widest uppercase mb-0.5">Operation</div>
+        <div className={`text-sm font-bold ${colors.text} tracking-wider`}>
           {situationData.operationName}
         </div>
       </div>
 
       {/* Key Stats */}
-      <div className="border-b border-[#1a2a3a] px-4 py-3 grid grid-cols-2 gap-2">
+      <div className="border-b border-[#1a2a3a] px-5 py-3.5 grid grid-cols-2 gap-3">
         {situationData.keyStats.map((stat, i) => (
-          <div key={i} className="flex flex-col">
-            <span className="text-[9px] text-gray-600 uppercase tracking-widest leading-none mb-0.5">{stat.label}</span>
+          <div key={i} className="flex flex-col gap-0.5">
+            <span className="text-[10px] text-gray-600 uppercase tracking-widest leading-none">{stat.label}</span>
             <span className={`text-[11px] font-medium ${statStatusColors[stat.status]} leading-tight`}>{stat.value}</span>
           </div>
         ))}
       </div>
 
       {/* Bullet Points */}
-      <div className="flex-1 overflow-y-auto px-4 py-3 space-y-2.5">
+      <div className="flex-1 overflow-y-auto px-5 py-3.5 space-y-3">
         {situationData.bulletPoints.map((point, i) => (
-          <div key={i} className="flex gap-2">
-            <span className={`text-[10px] font-mono ${colors.text} mt-0.5 flex-shrink-0`}>&#9656;</span>
+          <div key={i} className="flex gap-2.5">
+            <span className={`text-[10px] ${colors.text} mt-0.5 flex-shrink-0`}>&#9656;</span>
             <p className="text-[12px] text-gray-400 leading-relaxed">{point}</p>
           </div>
         ))}
       </div>
 
       {/* Footer */}
-      <div className="border-t border-[#1a2a3a] px-4 py-2 flex items-center gap-2">
+      <div className="border-t border-[#1a2a3a] px-5 py-2.5 flex items-center gap-2">
         <Clock className="w-2.5 h-2.5 text-gray-600" />
         <span className="text-[9px] text-gray-600 tracking-wide">
           Brief updated: <span className="font-mono">{updateDate.toUTCString()}</span>
