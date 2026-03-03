@@ -111,32 +111,33 @@ export default function TickerBar() {
   const tickerContent = [...items, ...items]; // doubled for seamless loop
 
   return (
-    <div className="fixed bottom-0 left-0 right-0 z-50 h-8 bg-[#07090f]/95 border-t border-[#1a2a3a] backdrop-blur-sm overflow-hidden flex items-center">
-      <div className="flex-shrink-0 px-3 border-r border-[#1a2a3a] h-full flex items-center">
-        <span className="text-[10px] font-mono font-bold text-red-400 tracking-widest">LIVE</span>
+    <div className="fixed bottom-0 left-0 right-0 z-50 h-8 bg-[#06080d]/96 border-t border-[#1a2a3a] backdrop-blur-md overflow-hidden flex items-center">
+      <div className="flex-shrink-0 px-4 border-r border-[#1a2a3a] h-full flex items-center gap-2">
+        <div className="w-1.5 h-1.5 rounded-full bg-red-500 blink" />
+        <span className="text-[10px] font-bold text-red-400 tracking-widest">LIVE</span>
       </div>
       <div className="flex-1 overflow-hidden">
-        <div className="ticker-animate flex items-center gap-8 whitespace-nowrap">
+        <div className="ticker-animate flex items-center gap-7 whitespace-nowrap">
           {tickerContent.map((item, i) => (
-            <div key={i} className="flex items-center gap-2 text-xs font-mono">
-              <span className="text-gray-500 text-[10px] tracking-widest">{item.label}</span>
+            <div key={i} className="flex items-center gap-2">
+              <span className="text-[10px] text-gray-500 tracking-wide uppercase">{item.label}</span>
               <span
-                className={`font-medium ${
-                  item.isStatus ? 'text-red-400 font-bold' : 'text-white'
+                className={`text-[12px] font-mono font-semibold tabular-nums ${
+                  item.isStatus ? 'text-red-400' : 'text-gray-100'
                 }`}
               >
                 {item.value}
               </span>
               {item.change && (
                 <span
-                  className={`text-[10px] ${
+                  className={`text-[10px] font-mono ${
                     item.changePositive ? 'text-green-400' : 'text-red-400'
                   }`}
                 >
                   {item.change}
                 </span>
               )}
-              <span className="text-gray-700 mx-2">|</span>
+              <span className="text-gray-700">·</span>
             </div>
           ))}
         </div>

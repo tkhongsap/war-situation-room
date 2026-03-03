@@ -2,6 +2,7 @@ export interface SituationData {
   lastUpdated: string;
   threatLevel: 'CRITICAL' | 'HIGH' | 'ELEVATED' | 'MODERATE' | 'LOW';
   operationName: string;
+  executiveSummary: string;
   bulletPoints: string[];
   keyStats: {
     label: string;
@@ -14,6 +15,7 @@ export const situationData: SituationData = {
   lastUpdated: '2026-03-03T06:00:00Z',
   threatLevel: 'CRITICAL',
   operationName: 'OPERATION SHIELD OF JUDAH',
+  executiveSummary: 'Operation Shield of Judah enters Day 4. The Strait of Hormuz is effectively closed — Iranian naval assets have blockaded the chokepoint, removing an estimated 20% of global oil supply from market. Energy markets are in extreme volatility with Brent crude up 35% in 72 hours; diplomatic resolution remains stalled at a deadlocked UN Security Council.',
   bulletPoints: [
     'Coalition forces have conducted precision strikes on 14 identified nuclear and military infrastructure targets across Iran over a 72-hour period.',
     'Strait of Hormuz remains effectively closed — Iranian naval assets deployed across the chokepoint; maritime insurance suspended.',

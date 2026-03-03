@@ -6,9 +6,10 @@ import { AlertTriangle, RefreshCw, Radio } from 'lucide-react';
 interface TimeZoneClockProps {
   timezone: string;
   label: string;
+  primary?: boolean;
 }
 
-function TimeZoneClock({ timezone, label }: TimeZoneClockProps) {
+function TimeZoneClock({ timezone, label, primary = false }: TimeZoneClockProps) {
   const [time, setTime] = useState('');
 
   useEffect(() => {
@@ -28,8 +29,14 @@ function TimeZoneClock({ timezone, label }: TimeZoneClockProps) {
 
   return (
     <div className="flex flex-col items-center">
-      <span className="text-[10px] text-gray-500 uppercase tracking-widest font-mono">{label}</span>
-      <span className="text-sm font-mono text-blue-300 tabular-nums">{time}</span>
+      <span className="text-[9px] text-gray-500 uppercase tracking-widest">{label}</span>
+      <span
+        className={`font-mono tabular-nums ${
+          primary ? 'text-[15px] text-blue-200 font-semibold' : 'text-sm text-blue-300'
+        }`}
+      >
+        {time}
+      </span>
     </div>
   );
 }
@@ -58,22 +65,22 @@ export default function Header() {
               <h1 className="text-xl font-bold tracking-[0.15em] text-white uppercase font-mono leading-none">
                 Situation Room
               </h1>
-              <p className="text-[10px] text-gray-500 tracking-[0.2em] uppercase font-mono">
+              <p className="text-[10px] text-gray-500 tracking-[0.15em] uppercase">
                 Global Intelligence Dashboard
               </p>
             </div>
           </div>
 
           {/* Threat Level Badge */}
-          <div className="flex items-center gap-1.5 px-3 py-1 rounded border border-red-500/40 bg-red-500/10">
+          <div className="flex items-center gap-1.5 px-3 py-1 rounded bg-red-500/20 border border-red-500/60">
             <AlertTriangle className="w-3 h-3 text-red-400" />
-            <span className="text-xs font-mono font-bold text-red-400 tracking-widest">CRITICAL</span>
+            <span className="text-xs font-bold text-red-300 tracking-widest">CRITICAL</span>
           </div>
         </div>
 
         {/* Center: Clocks */}
         <div className="flex items-center gap-6">
-          <TimeZoneClock timezone="Asia/Bangkok" label="Bangkok" />
+          <TimeZoneClock timezone="Asia/Bangkok" label="Bangkok" primary />
           <div className="w-px h-8 bg-gray-800"></div>
           <TimeZoneClock timezone="UTC" label="UTC" />
           <div className="w-px h-8 bg-gray-800"></div>
@@ -86,12 +93,12 @@ export default function Header() {
         <div className="flex items-center gap-4">
           <div className="flex items-center gap-1.5 text-green-500">
             <Radio className="w-3 h-3 blink" />
-            <span className="text-[10px] font-mono tracking-widest text-green-500">LIVE</span>
+            <span className="text-[10px] tracking-widest text-green-500 font-medium">LIVE</span>
           </div>
           <div className="flex items-center gap-1.5">
             <RefreshCw className="w-3 h-3 text-gray-500" />
-            <span className="text-[10px] font-mono text-gray-500">
-              UPDATED {lastUpdated}
+            <span className="text-[10px] text-gray-500">
+              Updated {lastUpdated}
             </span>
           </div>
         </div>
