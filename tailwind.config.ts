@@ -10,8 +10,8 @@ const config: Config = {
   theme: {
   	extend: {
   		fontFamily: {
-  			sans: ['var(--font-inter)', 'ui-sans-serif', 'system-ui', 'sans-serif'],
-  			mono: ['var(--font-mono)', 'ui-monospace', 'monospace'],
+  			sans: ['var(--font-body)', 'IBM Plex Sans', 'ui-sans-serif', 'system-ui', 'sans-serif'],
+  			mono: ['var(--font-mono)', 'JetBrains Mono', 'ui-monospace', 'monospace'],
   		},
   		colors: {
   			background: 'hsl(var(--background))',
@@ -47,6 +47,9 @@ const config: Config = {
   			border: 'hsl(var(--border))',
   			input: 'hsl(var(--input))',
   			ring: 'hsl(var(--ring))',
+  			cyan: {
+  				DEFAULT: 'hsl(var(--cyan-accent))',
+  			},
   			chart: {
   				'1': 'hsl(var(--chart-1))',
   				'2': 'hsl(var(--chart-2))',

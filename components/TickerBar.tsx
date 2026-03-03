@@ -111,33 +111,34 @@ export default function TickerBar() {
   const tickerContent = [...items, ...items]; // doubled for seamless loop
 
   return (
-    <div className="fixed bottom-0 left-0 right-0 z-50 h-8 bg-[#06080d]/96 border-t border-[#1a2a3a] backdrop-blur-md overflow-hidden flex items-center">
-      <div className="flex-shrink-0 px-4 border-r border-[#1a2a3a] h-full flex items-center gap-2">
-        <div className="w-1.5 h-1.5 rounded-full bg-red-500 blink" />
-        <span className="text-[10px] font-bold text-red-400 tracking-widest">LIVE</span>
+    <div className="fixed bottom-0 left-0 right-0 z-50 h-8 frosted overflow-hidden flex items-center" style={{ borderTop: '1px solid rgba(30, 55, 85, 0.2)' }}>
+      {/* LIVE badge */}
+      <div className="flex-shrink-0 px-4 h-full flex items-center gap-2" style={{ borderRight: '1px solid rgba(30, 55, 85, 0.2)' }}>
+        <div className="w-1.5 h-1.5 rounded-full bg-red-500 pulse-red-dot" />
+        <span className="font-mono text-[10px] font-bold text-red-400 tracking-[0.2em] glow-red">LIVE</span>
       </div>
       <div className="flex-1 overflow-hidden">
         <div className="ticker-animate flex items-center gap-7 whitespace-nowrap">
           {tickerContent.map((item, i) => (
             <div key={i} className="flex items-center gap-2">
-              <span className="text-[10px] text-gray-500 tracking-wide uppercase">{item.label}</span>
+              <span className="type-label" style={{ fontSize: '9px', letterSpacing: '0.12em' }}>{item.label}</span>
               <span
-                className={`text-[12px] font-mono font-semibold tabular-nums ${
-                  item.isStatus ? 'text-red-400' : 'text-gray-100'
+                className={`font-mono text-[12px] font-semibold tabular-nums ${
+                  item.isStatus ? 'text-red-400 glow-red' : 'text-gray-100'
                 }`}
               >
                 {item.value}
               </span>
               {item.change && (
                 <span
-                  className={`text-[10px] font-mono ${
+                  className={`font-mono text-[10px] tabular-nums ${
                     item.changePositive ? 'text-green-400' : 'text-red-400'
                   }`}
                 >
                   {item.change}
                 </span>
               )}
-              <span className="text-gray-700">·</span>
+              <span style={{ color: 'rgba(30, 55, 85, 0.4)' }}>·</span>
             </div>
           ))}
         </div>

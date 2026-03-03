@@ -3,92 +3,105 @@ import { TrendingUp, TrendingDown, Minus } from 'lucide-react';
 
 const variantConfig = {
   base: {
-    border: 'border-amber-500/40',
-    bg: 'bg-amber-500/5',
-    headerBg: 'bg-amber-500/10',
+    border: 'rgba(245, 158, 11, 0.25)',
+    bg: 'rgba(245, 158, 11, 0.03)',
+    headerBg: 'rgba(245, 158, 11, 0.06)',
     text: 'text-amber-400',
-    badge: 'bg-amber-500/20 text-amber-300 border-amber-500/40',
+    badge: 'bg-amber-500/15 text-amber-300 border-amber-500/30',
     probBar: 'bg-amber-500',
+    glow: 'glow-amber',
+    glowColor: 'rgba(245, 158, 11, 0.12)',
   },
   escalation: {
-    border: 'border-red-500/40',
-    bg: 'bg-red-500/5',
-    headerBg: 'bg-red-500/10',
+    border: 'rgba(239, 68, 68, 0.25)',
+    bg: 'rgba(239, 68, 68, 0.03)',
+    headerBg: 'rgba(239, 68, 68, 0.06)',
     text: 'text-red-400',
-    badge: 'bg-red-500/20 text-red-300 border-red-500/40',
+    badge: 'bg-red-500/15 text-red-300 border-red-500/30',
     probBar: 'bg-red-500',
+    glow: 'glow-red',
+    glowColor: 'rgba(239, 68, 68, 0.12)',
   },
   deescalation: {
-    border: 'border-green-500/40',
-    bg: 'bg-green-500/5',
-    headerBg: 'bg-green-500/10',
+    border: 'rgba(34, 197, 94, 0.25)',
+    bg: 'rgba(34, 197, 94, 0.03)',
+    headerBg: 'rgba(34, 197, 94, 0.06)',
     text: 'text-green-400',
-    badge: 'bg-green-500/20 text-green-300 border-green-500/40',
+    badge: 'bg-green-500/15 text-green-300 border-green-500/30',
     probBar: 'bg-green-500',
+    glow: 'glow-green',
+    glowColor: 'rgba(34, 197, 94, 0.12)',
   },
 };
 
 export default function ScenarioAnalysis() {
   return (
-    <div className="bg-[#07090f] border border-[#1a2a3a] rounded-sm overflow-hidden h-full flex flex-col">
+    <div className="panel overflow-hidden h-full flex flex-col">
       {/* Panel Header */}
-      <div className="border-b border-[#1a2a3a] px-5 py-3 flex items-center justify-between flex-shrink-0">
+      <div className="panel-header px-5 py-3 flex items-center justify-between flex-shrink-0">
         <div className="flex items-center gap-2">
-          <div className="w-1.5 h-1.5 rounded-full bg-amber-500/80"></div>
-          <h2 className="text-[12px] font-semibold text-gray-300 uppercase tracking-[0.13em]">
+          <div className="w-1.5 h-1.5 rounded-full bg-amber-500/80" style={{ boxShadow: '0 0 6px rgba(245, 158, 11, 0.4)' }}></div>
+          <h2 className="type-display text-[11px] text-gray-300">
             Scenario Analysis
           </h2>
         </div>
-        <span className="text-[10px] text-gray-600 tracking-widest uppercase">
+        <span className="type-label" style={{ fontSize: '9px' }}>
           Probability-Weighted
         </span>
       </div>
 
       {/* Scenario Cards */}
       <div className="flex-1 p-4 grid grid-cols-3 gap-4 min-h-0">
-        {scenarios.map((scenario) => {
+        {scenarios.map((scenario, idx) => {
           const cfg = variantConfig[scenario.variant];
           return (
             <div
               key={scenario.id}
-              className={`rounded-sm border-l-2 border ${cfg.border} ${cfg.bg} flex flex-col overflow-hidden`}
+              className="rounded-sm flex flex-col overflow-hidden fade-in"
+              style={{
+                animationDelay: `${0.3 + idx * 0.1}s`,
+                background: cfg.bg,
+                border: `1px solid ${cfg.border}`,
+                borderLeft: `2px solid ${cfg.border}`,
+                boxShadow: `inset 0 0 30px ${cfg.glowColor}`,
+              }}
             >
               {/* Card Header — prominent probability */}
-              <div className={`${cfg.headerBg} border-b ${cfg.border} px-3.5 pt-3.5 pb-2.5`}>
+              <div className="px-3.5 pt-3.5 pb-2.5" style={{ background: cfg.headerBg, borderBottom: `1px solid ${cfg.border}` }}>
                 <div className="flex items-start justify-between mb-2">
-                  <span className={`text-[11px] font-semibold ${cfg.text} tracking-wide uppercase`}>
+                  <span className={`font-mono text-[11px] font-bold ${cfg.text} tracking-[0.1em] uppercase`}>
                     {scenario.name}
                   </span>
                   {/* Large probability badge */}
-                  <div className={`flex flex-col items-center px-2 py-0.5 rounded border ${cfg.badge}`}>
-                    <span className={`text-xl font-bold font-mono tabular-nums leading-none ${cfg.text}`}>
+                  <div className={`flex flex-col items-center px-2 py-0.5 rounded-sm border ${cfg.badge}`}>
+                    <span className={`text-xl font-extrabold font-mono tabular-nums leading-none ${cfg.text} ${cfg.glow}`}>
                       {scenario.probability}%
                     </span>
-                    <span className="text-[8px] text-gray-600 tracking-wide">prob.</span>
+                    <span className="type-label" style={{ fontSize: '7px', color: 'rgba(148, 163, 184, 0.4)' }}>prob.</span>
                   </div>
                 </div>
                 {/* Probability bar */}
-                <div className="h-1.5 bg-gray-800 rounded-full">
+                <div className="h-1 bg-gray-800/40 rounded-full overflow-hidden">
                   <div
                     className={`h-full rounded-full ${cfg.probBar} transition-all duration-700`}
-                    style={{ width: `${scenario.probability}%` }}
+                    style={{ width: `${scenario.probability}%`, boxShadow: `0 0 8px ${cfg.glowColor}` }}
                   />
                 </div>
               </div>
 
               {/* Description */}
-              <div className="px-3.5 py-2.5 border-b border-[#1a2a3a]">
-                <p className="text-[12px] text-gray-400 leading-relaxed">
+              <div className="px-3.5 py-2.5" style={{ borderBottom: '1px solid rgba(30, 55, 85, 0.2)' }}>
+                <p className="text-[12px] text-gray-400 leading-relaxed type-body">
                   {scenario.description}
                 </p>
               </div>
 
               {/* Timeline */}
-              <div className="px-3.5 py-2 border-b border-[#1a2a3a] flex items-center gap-2">
-                <span className="text-[9px] text-gray-600 uppercase tracking-widest">
+              <div className="px-3.5 py-2 flex items-center gap-2" style={{ borderBottom: '1px solid rgba(30, 55, 85, 0.2)' }}>
+                <span className="type-label" style={{ fontSize: '8px' }}>
                   Duration
                 </span>
-                <span className={`text-[11px] font-medium ${cfg.text}`}>
+                <span className={`font-mono text-[11px] font-medium ${cfg.text}`}>
                   {scenario.timeline}
                 </span>
               </div>
@@ -97,7 +110,7 @@ export default function ScenarioAnalysis() {
               <div className="flex-1 px-3.5 py-2.5 space-y-2">
                 {scenario.impacts.map((impact) => (
                   <div key={impact.label} className="flex items-center justify-between">
-                    <span className="text-[9px] text-gray-600 uppercase tracking-wide">
+                    <span className="type-label" style={{ fontSize: '8px' }}>
                       {impact.label}
                     </span>
                     <div className="flex items-center gap-1">

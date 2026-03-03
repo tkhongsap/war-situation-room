@@ -11,11 +11,11 @@ import TickerBar from '@/components/TickerBar';
 
 export default function Home() {
   return (
-    <div className="min-h-screen bg-[#0a0a0f]">
+    <div className="min-h-screen relative" style={{ background: 'radial-gradient(ellipse at 50% 0%, #0c1018 0%, #060810 40%, #04060a 100%)' }}>
       <Header />
 
       <main className="px-4 pt-4 pb-16 max-w-[1920px] mx-auto space-y-4">
-        {/* Executive Summary — full width, above everything */}
+        {/* Executive Summary — full width, hero section */}
         <div className="section-fade-1">
           <ExecutiveSummary />
         </div>
@@ -27,8 +27,10 @@ export default function Home() {
         </div>
 
         {/* Row 2: Market Signals — full width */}
-        <div className="section-fade-3 bg-[#07090f] border border-[#1a2a3a] rounded-sm p-4 pb-5">
-          <MarketSignals />
+        <div className="section-fade-3">
+          <div className="panel p-4 pb-5">
+            <MarketSignals />
+          </div>
         </div>
 
         {/* Row 3: Supply Chain Risk + Scenario Analysis */}

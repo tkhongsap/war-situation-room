@@ -14,9 +14,9 @@ interface ActionPhase {
 }
 
 const priorityConfig = {
-  CRITICAL: { border: 'border-l-red-500', badge: 'bg-red-500/15 text-red-400 border-red-500/30' },
-  HIGH: { border: 'border-l-orange-500', badge: 'bg-orange-500/15 text-orange-400 border-orange-500/30' },
-  MODERATE: { border: 'border-l-yellow-500', badge: 'bg-yellow-500/15 text-yellow-400 border-yellow-500/30' },
+  CRITICAL: { accentClass: 'accent-border-critical', badge: 'bg-red-500/12 text-red-400 border-red-500/25', glow: 'glow-red' },
+  HIGH: { accentClass: 'accent-border-high', badge: 'bg-orange-500/12 text-orange-400 border-orange-500/25', glow: 'glow-amber' },
+  MODERATE: { accentClass: 'accent-border-moderate', badge: 'bg-yellow-500/12 text-yellow-400 border-yellow-500/25', glow: '' },
 } as const;
 
 const phases: ActionPhase[] = [
@@ -120,55 +120,64 @@ const phases: ActionPhase[] = [
 
 export default function StrategicActions() {
   return (
-    <div className="bg-[#07090f] border border-[#1a2a3a] rounded-sm overflow-hidden">
+    <div className="panel overflow-hidden">
       {/* Header */}
-      <div className="border-b border-[#1a2a3a] px-5 py-3 flex items-center justify-between">
+      <div className="panel-header px-5 py-3 flex items-center justify-between">
         <div className="flex items-center gap-2.5">
           <Target className="w-3.5 h-3.5 text-orange-400" />
-          <h2 className="text-[12px] font-semibold text-gray-300 uppercase tracking-[0.13em]">
+          <h2 className="type-display text-[11px] text-gray-300">
             Strategic Actions — F&B Operations (Thailand)
           </h2>
         </div>
-        <span className="text-[9px] text-gray-600 uppercase tracking-widest">
+        <span className="type-label" style={{ fontSize: '8px' }}>
           Action Briefing • White-Label
         </span>
       </div>
 
       {/* Three phases in columns */}
-      <div className="grid grid-cols-1 lg:grid-cols-3 divide-y lg:divide-y-0 lg:divide-x divide-[#1a2a3a]">
-        {phases.map((phase) => (
-          <div key={phase.title} className="p-4 space-y-3">
+      <div className="grid grid-cols-1 lg:grid-cols-3" style={{ borderTop: 'none' }}>
+        {phases.map((phase, phaseIdx) => (
+          <div
+            key={phase.title}
+            className="p-4 space-y-3"
+            style={{ borderLeft: phaseIdx > 0 ? '1px solid rgba(30, 55, 85, 0.25)' : 'none' }}
+          >
             {/* Phase header */}
             <div className="flex items-center gap-2 mb-3">
               {phase.icon}
               <div>
-                <h3 className="text-[11px] font-bold text-gray-300 uppercase tracking-widest">
+                <h3 className="type-display text-[10px] text-gray-300">
                   {phase.title}
                 </h3>
-                <span className="text-[9px] text-gray-600 tracking-wide">{phase.timeframe}</span>
+                <span className="type-label mt-0.5" style={{ fontSize: '8px' }}>{phase.timeframe}</span>
               </div>
             </div>
 
             {/* Action items */}
-            <div className="space-y-2">
+            <div className="space-y-2.5">
               {phase.actions.map((item, i) => {
                 const pConfig = priorityConfig[item.priority];
                 return (
                   <div
                     key={i}
-                    className={`border-l-2 ${pConfig.border} bg-[#0a0e16] rounded-r-sm px-3 py-2.5`}
+                    className={`${pConfig.accentClass} rounded-r-sm px-3 py-2.5`}
+                    style={{ background: 'rgba(10, 14, 22, 0.5)' }}
                   >
-                    <div className="flex items-start gap-2 mb-1">
+                    <div className="flex items-center gap-2 mb-1.5">
+                      {/* Number badge */}
+                      <span className="font-mono text-[10px] font-bold text-gray-600 tabular-nums w-4 flex-shrink-0">
+                        {String(i + 1).padStart(2, '0')}
+                      </span>
                       <span
-                        className={`flex-shrink-0 text-[8px] font-bold px-1.5 py-0.5 rounded border tracking-widest ${pConfig.badge}`}
+                        className={`flex-shrink-0 font-mono text-[8px] font-bold px-1.5 py-0.5 rounded-sm border tracking-[0.15em] ${pConfig.badge}`}
                       >
                         {item.priority}
                       </span>
                     </div>
-                    <p className="text-[11px] text-gray-200 leading-relaxed mb-1">
+                    <p className="text-[11px] text-gray-200 leading-relaxed mb-1 type-body">
                       {item.action}
                     </p>
-                    <p className="text-[10px] text-gray-500 leading-relaxed italic">
+                    <p className="text-[10px] text-gray-500 leading-relaxed italic type-body">
                       {item.rationale}
                     </p>
                   </div>
