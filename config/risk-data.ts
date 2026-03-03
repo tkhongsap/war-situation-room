@@ -13,50 +13,83 @@ export const riskCategories: RiskCategory[] = [
     name: 'Energy & Fuel Costs',
     level: 5,
     trend: 'up',
-    description: 'Brent crude +35% in 72 hours. Hormuz closure removes 20% of global oil supply from market.',
-    impacts: ['Fuel surcharges escalating across all transport modes', 'Electricity price spikes in oil-dependent markets'],
+    description:
+      'Thailand imports ~80% of crude oil — Hormuz closure directly impacts supply. Brent +35% in 72h drives diesel and LPG price spikes. LPG is the primary cooking fuel for Thai F&B operations; EGAT electricity tariffs are oil-linked and will follow within 1-2 billing cycles.',
+    impacts: [
+      'LPG cooking gas costs projected +20-30% within 2 weeks — hits every kitchen, factory, and QSR outlet',
+      'Diesel surcharges on domestic cold chain logistics (last-mile delivery, warehouse refrigeration)',
+      'EGAT Ft tariff adjustment expected next cycle — electricity costs for factories and cold storage rising',
+    ],
   },
   {
     id: 'shipping',
     name: 'Shipping & Logistics',
     level: 5,
     trend: 'up',
-    description: 'Hormuz effectively closed. All Gulf shipping rerouting via Cape of Good Hope adds 14-21 days transit.',
-    impacts: ['Container freight rates +80-150% on Gulf routes', 'War risk insurance premiums unaffordable for most operators'],
+    description:
+      'Hormuz closure forces rerouting via Cape of Good Hope, adding 14-21 days to Gulf→Laem Chabang transit. Thailand\'s largest port is already seeing container backlog. Imported dairy (NZ/EU), wheat flour (Australia/Canada), and food-grade chemicals face acute delays.',
+    impacts: [
+      'Laem Chabang port congestion rising — container dwell times up 40% as rerouted vessels bunch',
+      'Reefer container shortage for temperature-sensitive imports (dairy, frozen seafood, meat)',
+      'War risk insurance premiums on Gulf-origin cargo now exceed 2% of shipment value — passed to importers',
+    ],
   },
   {
     id: 'packaging',
     name: 'Packaging Materials',
     level: 4,
     trend: 'up',
-    description: 'Aluminum up 18%, glass energy costs spiking. Supply chain disruptions hitting packaging manufacturers.',
-    impacts: ['PET resin prices +12% on energy cost pass-through', 'Aluminum can surcharges from major suppliers'],
+    description:
+      'Thailand\'s packaging industry is energy-intensive. Aluminum +18% impacts canned beverages and ready-to-eat products. PET resin (used in bottles, food trays) tracks oil prices with a 2-4 week lag. Glass furnaces are natural gas dependent.',
+    impacts: [
+      'Aluminum can costs rising — major impact on beverage producers (beer, RTD, energy drinks, canned coffee)',
+      'PET preform prices up ~12% — affects water, juice, condiment, and sauce bottling',
+      'Corrugated cardboard and kraft paper prices following energy input costs upward',
+    ],
   },
   {
     id: 'raw-materials',
-    name: 'Raw Materials',
-    level: 3,
+    name: 'Food Ingredients & Raw Materials',
+    level: 4,
     trend: 'up',
-    description: 'Agricultural commodities moderately disrupted. Wheat and sugar seeing price pressure from shipping cost escalation.',
-    impacts: ['Palm oil shipping delays from Southeast Asia', 'Sugar freight costs +40% via Cape route'],
+    description:
+      'Thailand imports 95%+ of wheat flour (Australia, Canada, US) — all shipments transit through routes affected by conflict-driven shipping disruption. Dairy ingredients (NZ, EU) face same issue. Sugar is domestically produced but global price spike (+8%) creates export pull, tightening local supply.',
+    impacts: [
+      'Wheat flour — Thailand\'s #1 imported food ingredient — delivery delays of 2-3 weeks expected; spot prices +15%',
+      'Dairy (milk powder, whey, butter from NZ/EU) lead times extending; cold chain capacity strained',
+      'Soybean oil and palm oil: domestic palm oil supply stable but prices rising in sympathy with global benchmarks',
+      'Sugar: Thailand is a net exporter — global price spike incentivizes export, potentially tightening domestic availability',
+    ],
   },
   {
     id: 'currency',
-    name: 'Currency Exposure',
+    name: 'Currency & FX Exposure',
     level: 4,
     trend: 'up',
-    description: 'USD strengthening sharply as safe-haven demand surges. Emerging market currencies under pressure.',
-    impacts: ['THB weakening against USD — import cost inflation', 'EUR and JPY volatility creating hedging challenges'],
+    description:
+      'THB weakening as capital flows to USD safe havens. BOT has limited intervention capacity without burning reserves. Most Thai F&B imports are USD-denominated — every 1 THB depreciation adds ~3% to import costs. Forward hedging costs have spiked as volatility surges.',
+    impacts: [
+      'USD-denominated ingredient imports (wheat, dairy, food chemicals) face double hit: commodity price + FX',
+      'Forward hedging premiums up 40-60bps — locking in rates is getting expensive but not locking in is worse',
+      'EUR-denominated imports (European dairy, machinery parts) somewhat shielded as EUR also weakening vs USD',
+    ],
   },
   {
     id: 'consumer',
-    name: 'Consumer Demand',
+    name: 'Domestic Consumer Demand',
     level: 2,
     trend: 'stable',
-    description: 'Consumer confidence declining in conflict-exposed markets but domestic demand resilient short-term.',
-    impacts: ['Premium segment softening in Middle East markets', 'Travel & hospitality exposure elevated'],
+    description:
+      'Thai domestic F&B demand is resilient short-term — food is non-discretionary. However, tourism-linked revenue is at risk (Middle East tourist segment, general travel sentiment). Premium/imported product segments may soften as consumers trade down on price-sensitive items.',
+    impacts: [
+      'QSR and convenience food demand stable — Thai consumers prioritize food spending',
+      'Tourism-linked F&B revenue at risk: hotels, airport retail, tourist-zone restaurants seeing Middle East cancellations',
+      'Premium imported product segment (European cheese, Japanese wagyu, imported wines) may see demand softening',
+      'Domestic brands with local ingredient sourcing are competitively advantaged in this environment',
+    ],
   },
 ];
 
-export const compositeRiskScore = 4.2;
+// Weighted composite: energy(5×0.25) + shipping(5×0.2) + packaging(4×0.15) + raw-materials(4×0.2) + currency(4×0.1) + consumer(2×0.1)
+export const compositeRiskScore = 4.3;
 export const compositeRiskLabel = 'HIGH';
