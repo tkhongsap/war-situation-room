@@ -1,7 +1,9 @@
 'use client';
 
 import { useState } from 'react';
-import { riskCategories, compositeRiskScore, compositeRiskLabel } from '@/config/risk-data';
+import { useAnalysisContext } from '@/contexts/AnalysisContext';
+import { SupplyChainRiskSkeleton } from '@/components/AnalysisSkeleton';
+import { riskCategories as fallbackRiskCategories, compositeRiskScore as fallbackCompositeScore, compositeRiskLabel as fallbackCompositeLabel } from '@/config/risk-data';
 import { TrendingUp, TrendingDown, Minus, AlertOctagon, ChevronDown, ChevronRight } from 'lucide-react';
 
 const riskConfig = {
@@ -18,7 +20,15 @@ function barColor(level: number): string {
 }
 
 export default function SupplyChainRisk() {
+  const { data, loading } = useAnalysisContext();
   const [expanded, setExpanded] = useState<Set<string>>(new Set());
+
+  if (loading && !data) return <SupplyChainRiskSkeleton />;
+
+  const riskCategories = data?.riskCategories ?? fallbackRiskCategories;
+  const compositeRiskScore = data?.compositeRiskScore ?? fallbackCompositeScore;
+  const compositeRiskLabel = data?.compositeRiskLabel ?? fallbackCompositeLabel;
+
   const compositeConfig = compositeRiskScore >= 4.5 ? riskConfig[5] : compositeRiskScore >= 3.5 ? riskConfig[4] : riskConfig[3];
   const gaugeColor = compositeConfig.hexColor;
   const gaugePct = compositeRiskScore / 5;
@@ -33,42 +43,23 @@ export default function SupplyChainRisk() {
   };
 
   const assessmentDate = new Date().toLocaleDateString('en-US', {
-    day: '2-digit',
-    month: 'short',
-    year: 'numeric',
-    timeZone: 'UTC',
+    day: '2-digit', month: 'short', year: 'numeric', timeZone: 'UTC',
   });
 
   return (
     <div className="panel overflow-hidden h-full flex flex-col">
-      {/* Header — title + big conic gauge */}
       <div className="panel-header px-4 py-3 flex items-center gap-4 flex-shrink-0">
         <div className="flex items-center gap-2 flex-1 min-w-0">
           <AlertOctagon className="w-3.5 h-3.5 text-orange-400 flex-shrink-0" />
           <div className="flex flex-col">
-            <h2 className="type-display text-[11px] text-gray-300">
-              Supply Chain Risk
-            </h2>
-            <span className="type-label mt-0.5" style={{ fontSize: '8px' }}>
-              Assessment as of {assessmentDate}
-            </span>
+            <h2 className="type-display text-[11px] text-gray-300">Supply Chain Risk</h2>
+            <span className="type-label mt-0.5" style={{ fontSize: '8px' }}>Assessment as of {assessmentDate}</span>
           </div>
         </div>
-        {/* Conic gauge */}
         <div className="flex items-center gap-3 flex-shrink-0">
           <div className="relative gauge-animate">
-            {/* Outer glow */}
-            <div
-              className="absolute -inset-0.5 rounded-full opacity-25 blur-sm"
-              style={{ background: `conic-gradient(${gaugeColor} 0% ${gaugePct * 100}%, transparent ${gaugePct * 100}% 100%)` }}
-            />
-            <div
-              className="w-16 h-16 rounded-full flex-shrink-0 relative"
-              style={{
-                background: `conic-gradient(${gaugeColor} 0% ${gaugePct * 100}%, #0f1825 ${gaugePct * 100}% 100%)`,
-                padding: '3px',
-              }}
-            >
+            <div className="absolute -inset-0.5 rounded-full opacity-25 blur-sm" style={{ background: `conic-gradient(${gaugeColor} 0% ${gaugePct * 100}%, transparent ${gaugePct * 100}% 100%)` }} />
+            <div className="w-16 h-16 rounded-full flex-shrink-0 relative" style={{ background: `conic-gradient(${gaugeColor} 0% ${gaugePct * 100}%, #0f1825 ${gaugePct * 100}% 100%)`, padding: '3px' }}>
               <div className="w-full h-full rounded-full" style={{ padding: '2px', background: '#080c14' }}>
                 <div className="w-full h-full rounded-full flex flex-col items-center justify-center" style={{ background: 'radial-gradient(circle at 50% 40%, #0f1520 0%, #080c14 100%)' }}>
                   <span className={`text-xl font-bold font-mono tabular-nums leading-none ${compositeConfig.color} ${compositeConfig.glow}`}>
@@ -88,71 +79,31 @@ export default function SupplyChainRisk() {
         </div>
       </div>
 
-      {/* Risk Categories — expandable rows */}
       <div className="flex-1 overflow-y-auto px-4 py-2 space-y-0">
         {riskCategories.map((cat) => {
-          const config = riskConfig[cat.level];
+          const config = riskConfig[cat.level as keyof typeof riskConfig];
           const isExpanded = expanded.has(cat.id);
           return (
             <div key={cat.id} className="border-b border-[#0f1825]/60 last:border-0">
-              <div
-                className="flex items-center gap-3 py-2 cursor-pointer hover:bg-[#0c1018] transition-colors group"
-                onClick={() => toggleExpand(cat.id)}
-              >
-                {/* Expand toggle */}
+              <div className="flex items-center gap-3 py-2 cursor-pointer hover:bg-[#0c1018] transition-colors group" onClick={() => toggleExpand(cat.id)}>
                 <div className="flex-shrink-0 w-3 flex justify-center text-gray-600 group-hover:text-gray-400 transition-colors">
-                  {isExpanded ? (
-                    <ChevronDown className="w-3 h-3" />
-                  ) : (
-                    <ChevronRight className="w-3 h-3" />
-                  )}
+                  {isExpanded ? <ChevronDown className="w-3 h-3" /> : <ChevronRight className="w-3 h-3" />}
                 </div>
-
-                {/* Category name */}
                 <div className="flex-1 min-w-0">
                   <span className="text-[12px] text-gray-300 type-body">{cat.name}</span>
                 </div>
-
-                {/* Risk bar (thin) with glow */}
                 <div className="w-20 h-1.5 bg-gray-800/50 rounded-full flex-shrink-0 overflow-hidden">
-                  <div
-                    className="h-full rounded-full transition-all duration-700"
-                    style={{
-                      width: `${(cat.level / 5) * 100}%`,
-                      backgroundColor: barColor(cat.level),
-                      boxShadow: `0 0 6px ${barColor(cat.level)}40`,
-                    }}
-                  />
+                  <div className="h-full rounded-full transition-all duration-700" style={{ width: `${(cat.level / 5) * 100}%`, backgroundColor: barColor(cat.level), boxShadow: `0 0 6px ${barColor(cat.level)}40` }} />
                 </div>
-
-                {/* Trend arrow */}
                 <div className="flex-shrink-0 w-4 flex justify-center">
-                  {cat.trend === 'up' ? (
-                    <TrendingUp className="w-3.5 h-3.5 text-red-400" />
-                  ) : cat.trend === 'down' ? (
-                    <TrendingDown className="w-3.5 h-3.5 text-green-400" />
-                  ) : (
-                    <Minus className="w-3.5 h-3.5 text-gray-600" />
-                  )}
+                  {cat.trend === 'up' ? <TrendingUp className="w-3.5 h-3.5 text-red-400" /> : cat.trend === 'down' ? <TrendingDown className="w-3.5 h-3.5 text-green-400" /> : <Minus className="w-3.5 h-3.5 text-gray-600" />}
                 </div>
-
-                {/* Level label */}
-                <div className={`flex-shrink-0 font-mono text-[10px] font-bold tracking-[0.15em] w-16 text-right ${config.color}`}>
-                  {config.label}
-                </div>
-
-                {/* Numeric score */}
-                <div className={`flex-shrink-0 font-mono text-base font-bold tabular-nums w-5 text-right ${config.color} ${config.glow}`}>
-                  {cat.level}
-                </div>
+                <div className={`flex-shrink-0 font-mono text-[10px] font-bold tracking-[0.15em] w-16 text-right ${config.color}`}>{config.label}</div>
+                <div className={`flex-shrink-0 font-mono text-base font-bold tabular-nums w-5 text-right ${config.color} ${config.glow}`}>{cat.level}</div>
               </div>
-
-              {/* Expanded detail */}
               {isExpanded && (
                 <div className="pl-9 pr-4 pb-3 space-y-1.5">
-                  <p className="text-[11px] text-gray-400 leading-relaxed type-body">
-                    {cat.description}
-                  </p>
+                  <p className="text-[11px] text-gray-400 leading-relaxed type-body">{cat.description}</p>
                   {cat.impacts.length > 0 && (
                     <ul className="space-y-0.5">
                       {cat.impacts.map((impact, i) => (

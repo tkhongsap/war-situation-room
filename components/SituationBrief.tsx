@@ -1,4 +1,8 @@
-import { situationData } from '@/config/situation-data';
+'use client';
+
+import { useAnalysisContext } from '@/contexts/AnalysisContext';
+import { SituationBriefSkeleton } from '@/components/AnalysisSkeleton';
+import { situationData as fallbackSituationData } from '@/config/situation-data';
 import { Shield, AlertTriangle, Clock } from 'lucide-react';
 
 const threatColors = {
@@ -17,6 +21,11 @@ const statStatusColors: Record<string, string> = {
 };
 
 export default function SituationBrief() {
+  const { data, loading } = useAnalysisContext();
+
+  if (loading && !data) return <SituationBriefSkeleton />;
+
+  const situationData = data?.situationData ?? fallbackSituationData;
   const colors = threatColors[situationData.threatLevel];
   const updateDate = new Date(situationData.lastUpdated);
 
@@ -26,9 +35,7 @@ export default function SituationBrief() {
       <div className="panel-header px-5 py-3 flex items-center justify-between">
         <div className="flex items-center gap-2">
           <Shield className={`w-3.5 h-3.5 ${colors.text}`} />
-          <span className="type-display text-[11px] text-gray-300">
-            Situation Brief
-          </span>
+          <span className="type-display text-[11px] text-gray-300">Situation Brief</span>
         </div>
         <div className={`flex items-center gap-1.5 px-2.5 py-1 rounded-sm border ${colors.badge} font-mono text-[10px] font-bold tracking-[0.15em]`}>
           <AlertTriangle className="w-2.5 h-2.5" />
