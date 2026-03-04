@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
+import { useAnalysisContext } from '@/contexts/AnalysisContext';
 import { AlertTriangle, RefreshCw, Radio } from 'lucide-react';
 
 interface TimeZoneClockProps {
@@ -43,6 +44,17 @@ function TimeZoneClock({ timezone, label, primary = false }: TimeZoneClockProps)
 
 export default function Header() {
   const [lastUpdatedFull, setLastUpdatedFull] = useState('');
+  const { data } = useAnalysisContext();
+
+  const threatLevel = data?.situationData?.threatLevel ?? 'CRITICAL';
+  const threatColors: Record<string, { bg: string; border: string; text: string; glow: string }> = {
+    CRITICAL: { bg: 'rgba(239, 68, 68, 0.08)', border: 'rgba(239, 68, 68, 0.3)', text: 'text-red-400', glow: 'glow-red' },
+    HIGH: { bg: 'rgba(249, 115, 22, 0.08)', border: 'rgba(249, 115, 22, 0.3)', text: 'text-orange-400', glow: 'glow-amber' },
+    ELEVATED: { bg: 'rgba(234, 179, 8, 0.08)', border: 'rgba(234, 179, 8, 0.3)', text: 'text-yellow-400', glow: 'glow-amber' },
+    MODERATE: { bg: 'rgba(59, 130, 246, 0.08)', border: 'rgba(59, 130, 246, 0.3)', text: 'text-blue-400', glow: 'glow-cyan' },
+    LOW: { bg: 'rgba(34, 197, 94, 0.08)', border: 'rgba(34, 197, 94, 0.3)', text: 'text-green-400', glow: 'glow-green' },
+  };
+  const tc = threatColors[threatLevel] ?? threatColors.CRITICAL;
 
   useEffect(() => {
     const update = () => {
@@ -81,9 +93,9 @@ export default function Header() {
           </div>
 
           {/* Threat Level Badge */}
-          <div className="flex items-center gap-1.5 px-3 py-1.5 rounded-sm glow-red-box" style={{ background: 'rgba(239, 68, 68, 0.08)', border: '1px solid rgba(239, 68, 68, 0.3)' }}>
-            <AlertTriangle className="w-3 h-3 text-red-400" />
-            <span className="font-mono text-[10px] font-bold text-red-400 tracking-[0.2em] glow-red">CRITICAL</span>
+          <div className="flex items-center gap-1.5 px-3 py-1.5 rounded-sm" style={{ background: tc.bg, border: `1px solid ${tc.border}`, boxShadow: `0 0 12px ${tc.border}` }}>
+            <AlertTriangle className={`w-3 h-3 ${tc.text}`} />
+            <span className={`font-mono text-[10px] font-bold tracking-[0.2em] ${tc.text} ${tc.glow}`}>{threatLevel}</span>
           </div>
         </div>
 
