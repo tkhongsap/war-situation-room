@@ -1,121 +1,155 @@
-# War Situation Room — Geopolitical Risk Intelligence Dashboard
+# War Situation Room — Global Intelligence & Market Signal Dashboard
 
 ## Overview
-A real-time, C-suite-ready web dashboard that monitors the Iran-USA conflict and assesses its business impact on F&B / FMCG supply chains. The product is **white-label** — no company branding. It should look like a premium intelligence product that any enterprise can use.
+A real-time global intelligence dashboard that tracks the current Iran-USA conflict and its market impact. Combines conflict intelligence, geopolitical risk monitoring, and financial market signals into a single C-suite-ready interface. White-label — no company branding.
 
 ## Target Audience
 - Executive leadership / C-suite
 - Risk & strategy teams
+- Investment / treasury teams
 - Supply chain / procurement managers
 
 ## Design
-- **Dark theme** (military/intel aesthetic — think Bloomberg terminal meets watchwar.live)
+- **Dark theme** (military/intel aesthetic — Bloomberg terminal meets intelligence briefing)
 - Clean, minimal, data-dense
 - Auto-refreshing data (polling every 60s for prices, 5min for news)
-- Responsive but optimized for large screens / war room displays
+- Optimized for large screens / war room displays
 - Professional — no gimmicks, no clutter
+- Visual inspiration: watchwar.live, worldmonitor.app
 
 ## Tech Stack
 - **Next.js 14** (App Router)
 - **Tailwind CSS** + **shadcn/ui** components
-- **Recharts** or **Tremor** for charts
-- **Leaflet** or **MapLibre** for interactive maps
+- **Recharts** for charts/sparklines
+- **Leaflet** for interactive conflict map
 - **TypeScript** throughout
-- No database needed — all data from APIs, cached in-memory or via route handlers
+- No database — all data from APIs, cached in-memory via route handlers
 
 ## Data Sources (Public APIs)
 
 ### Oil & Energy
-- Brent crude, WTI prices — via Yahoo Finance API or similar free source
+- Brent crude, WTI prices
 - Natural gas prices
-- Energy index tracking
+- Use free financial APIs (Yahoo Finance, Alpha Vantage, or similar)
 
-### Commodities (F&B relevant)
-- Sugar, barley/wheat, aluminum, glass (packaging materials)
-- Palm oil (key SEA commodity)
-- Use free commodity APIs or scraping
+### Commodities
+- Sugar, Wheat, Aluminum, Palm Oil, Gold, Copper
+- Key F&B and industrial commodities affected by conflict
 
-### Currency / Forex
-- THB/USD, EUR/USD, CNY/USD
+### Currencies / Forex
+- THB/USD, EUR/USD, CNY/USD, JPY/USD
 - Via exchangerate.host or similar
+
+### Equities / Market Indices
+- S&P 500, SET (Thailand), Nikkei, crude oil ETFs
+- Key indices that react to geopolitical risk
 
 ### Shipping & Freight
 - Baltic Dry Index
-- Container freight rates
-- Strait of Hormuz traffic status
+- Strait of Hormuz status
+- Container freight rate indicators
 
 ### News / Intel
-- Curated conflict news feed — use NewsAPI, RSS feeds, or Brave Search API
-- Filter for: Iran, Hormuz, oil, shipping, supply chain, sanctions, Middle East
-- AI-generated situation summary (can be static/manual for v1)
+- Conflict news from RSS feeds (Al Jazeera, Reuters, BBC, AP)
+- Filter for: Iran, Hormuz, oil, shipping, sanctions, Middle East, military
+- Categorized: Military, Economic, Shipping, Diplomatic, Sanctions
 
-## Dashboard Sections
+## Dashboard Layout
 
 ### 1. Header Bar
-- Dashboard title: "SITUATION ROOM" with subtitle "Geopolitical Risk Intelligence"
-- Last updated timestamp (auto-refresh indicator)
-- Overall risk level indicator (CRITICAL / HIGH / ELEVATED / MODERATE / LOW)
-- Current date/time in multiple timezones (Bangkok, UTC, Tehran, Washington DC)
+- Title: "SITUATION ROOM" with subtitle "Global Intelligence Dashboard"
+- Overall threat level badge (CRITICAL / HIGH / ELEVATED / MODERATE / LOW)
+- Multi-timezone clocks: Bangkok, UTC, Tehran, Washington DC
+- Last updated timestamp with auto-refresh indicator
+- Pulsing dot when data is live
 
-### 2. Conflict Map (Hero Section)
-- Interactive map centered on Middle East / Indian Ocean
-- Markers for: strike locations, Strait of Hormuz chokepoint, key shipping routes
-- Color-coded zones (conflict zone, risk zone, safe zone)
-- Shipping route lines (normal routes vs. alternative routes)
-- Key infrastructure markers (ports, refineries, military bases)
-- Static data is fine for v1 — hardcode known strike locations and routes
+### 2. Situation Brief (Top Left)
+- AI-style intelligence briefing summary
+- 4-6 bullet points covering current situation
+- Key stats: casualties, missiles intercepted, Hormuz status, days since escalation
+- Styled like classified briefing document (monospace header, "SITUATION BRIEF" label)
+- Threat level indicator with colored badge
+- Manually updatable via config file
 
-### 3. Market Impact Panel
-- Real-time price cards for: Brent Crude, WTI, Natural Gas
-- Commodity price cards: Sugar, Wheat, Aluminum, Palm Oil
-- Each card shows: current price, 24h change (%), 7d sparkline chart
-- Currency panel: THB/USD, EUR/USD with change indicators
-- Color coding: green (favorable), red (unfavorable), amber (volatile)
+### 3. Conflict Map (Top Center/Right — Hero)
+- Interactive Leaflet map with dark tiles
+- Strike location markers (Tehran, nuclear sites, IRGC bases, retaliation targets)
+- Strait of Hormuz chokepoint overlay (highlighted danger zone)
+- Shipping routes: normal (through Hormuz, red/dashed) vs alternative (Cape of Good Hope, green)
+- Key ports: Jebel Ali, Fujairah, Ras Tanura, Bandar Abbas
+- Naval presence markers (US carrier groups, IRGC navy estimated positions)
+- Military base markers
+- Map legend
+- Zoom/pan interactive
 
-### 4. Supply Chain Risk Assessment
-- Risk matrix / heatmap showing risk levels across categories:
-  - Energy & Fuel Costs
-  - Raw Material Availability
-  - Packaging Materials (aluminum, glass)
+### 4. Market Signals Panel (Middle Section)
+Three sub-sections in a grid:
+
+**Energy:**
+- Brent Crude, WTI, Natural Gas
+- Current price, 24h change %, 7d sparkline
+
+**Commodities:**
+- Gold, Aluminum, Wheat, Sugar, Palm Oil, Copper
+- Current price, 24h change %, sparkline
+
+**Currencies:**
+- THB/USD, EUR/USD, CNY/USD, JPY/USD
+- Current rate, change indicator
+
+**Indices:**
+- S&P 500, SET Index, Nikkei 225
+- Current value, daily change %
+
+Each card: price, change %, trend arrow, color coding (green/red), mini sparkline chart
+
+### 5. Supply Chain & Logistics Risk
+- Risk heatmap across categories:
+  - Energy & Fuel Costs (risk 1-5)
   - Shipping & Logistics
+  - Raw Materials
+  - Packaging (aluminum, glass)
   - Currency Exposure
-  - Consumer Demand
-- Each category: risk level (1-5), trend arrow (↑↓→), brief description
-- Visual: color-coded cards or grid
+  - Consumer Demand Impact
+- Each: risk level, trend arrow, brief description
+- Overall composite risk score
+- Color coded cards
 
-### 5. Scenario Analysis Cards
-- 3 scenario cards:
-  1. **Base Case**: "Hormuz partially restricted, conflict contained" — projected impacts
-  2. **Escalation**: "Full Hormuz closure, expanded theater" — projected impacts  
-  3. **De-escalation**: "Ceasefire within 2 weeks" — projected impacts
-- Each shows estimated impact on: energy costs, raw materials, freight, timeline
+### 6. Scenario Analysis
+- Three scenario cards side by side:
+  1. **Base Case** (amber): Hormuz partially restricted, conflict contained — projected impacts
+  2. **Escalation** (red): Full Hormuz closure, expanded theater — projected impacts
+  3. **De-escalation** (green): Ceasefire within 2 weeks — projected impacts
+- Each shows: probability, description, energy cost impact %, freight impact %, estimated duration
 
-### 6. Live Intelligence Feed
-- Scrolling news feed with conflict-related headlines
-- Each item: timestamp, source, headline, relevance tag
-- Filter by category: Military, Economic, Shipping, Diplomatic
-- Auto-updates every 5 minutes
+### 7. Live Intel Feed (Right Sidebar or Bottom)
+- Scrolling news headlines
+- Each: timestamp (relative), source, headline, category tag
+- Filter buttons: All / Military / Economic / Shipping / Diplomatic / Sanctions
+- Auto-refresh every 5 minutes
+- 20 most recent items
 
-### 7. Key Metrics Ticker
-- Bottom ticker bar (like a stock ticker) showing key numbers:
-  - Oil price, Hormuz status, freight index, THB/USD, risk level
-  - Scrolling or static row
+### 8. Key Metrics Ticker Bar (Bottom)
+- Scrolling ticker showing: Brent price, WTI, Gold, THB/USD, S&P 500, Hormuz status, threat level
+- Always visible at bottom of screen
 
 ## Pages
-For v1, **single page dashboard** is sufficient. All sections on one scrollable page with anchor navigation.
+Single page dashboard — all sections on one view with anchor navigation.
 
 ## Non-Goals (v1)
 - User authentication
 - Database / persistence
 - Custom alerts / notifications
-- Historical data analysis
-- Company-specific customization UI
+- Historical data deep-dives
 - Mobile optimization (desktop-first)
+- Live video feeds (v2)
+- 3D globe (v2)
 
 ## Success Criteria
 - Loads in <3 seconds
-- All data sections populate with real or realistic data
-- Looks C-suite ready (dark, professional, data-dense)
+- All panels populate with real or realistic data
+- Looks C-suite ready — would not look out of place in a boardroom
 - Map renders with conflict zones and shipping routes
 - Price data auto-refreshes
-- News feed shows relevant, recent content
+- News feed shows relevant, current content
+- Single Docker container deployment
